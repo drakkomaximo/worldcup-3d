@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import type { Team } from "@/data/types";
-import { playerStats } from "./playerIdentity";
+import { playerStats } from "@/domain/playerIdentity";
 import { PlayerAvatar } from "./PlayerAvatar";
 
 /** Character-select style player card with a stat sheet. */

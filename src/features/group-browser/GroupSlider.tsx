@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GROUPS } from "@/data/teams";
 import type { GroupId, StandingRow, Team, Tournament } from "@/data/types";
+import { flagUrl } from "@/lib/flags";
+import { useKeydown } from "@/hooks/useKeydown";
 import { useAppStore } from "@/store/useAppStore";
 
 // Coverflow layout
@@ -12,10 +14,6 @@ const TILT = 48; // degrees each side card rotates — strong 3D
 const AUTO_MS = 2200; // auto-advance interval — keeps the wheel moving
 const SNAP_MS = 420; // transition time between slots
 const DRAG_SUPPRESS_CLICK = 8; // px of drag that cancels the click
-
-function flagUrl(team: Team) {
-  return `https://flagcdn.com/w80/${team.iso2}.png`;
-}
 
 /** Card content (positioning is handled by the coverflow wrapper). */
 function GroupCard({
@@ -56,7 +54,7 @@ function GroupCard({
             <div key={r.teamId} className="flex items-center gap-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={flagUrl(team)}
+                src={flagUrl(team.iso2)}
                 alt={team.name}
                 className="h-4 w-6 rounded-[2px] object-cover"
                 loading="lazy"
@@ -174,7 +172,7 @@ function GroupDetail({
                 <span className="flex items-center gap-2.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={flagUrl(team)}
+                    src={flagUrl(team.iso2)}
                     alt={team.name}
                     className="h-4.5 w-7 rounded-[2px] object-cover"
                   />
@@ -284,20 +282,15 @@ export function GroupSlider() {
   };
 
   // Keyboard: ←/→ rotate, Enter opens center group, Esc goes back
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (openGroup) return; // GroupDetail handles its own Esc
-      if (e.code === "ArrowRight" || e.code === "KeyD") next();
-      else if (e.code === "ArrowLeft" || e.code === "KeyA") prev();
-      else if (e.code === "Enter" || e.code === "Space") {
-        e.preventDefault();
-        setOpenGroup(GROUPS[active]);
-      } else if (e.code === "Escape") goToMenu();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openGroup, active, goToMenu]);
+  useKeydown((e) => {
+    if (openGroup) return; // GroupDetail handles its own Esc
+    if (e.code === "ArrowRight" || e.code === "KeyD") next();
+    else if (e.code === "ArrowLeft" || e.code === "KeyA") prev();
+    else if (e.code === "Enter" || e.code === "Space") {
+      e.preventDefault();
+      setOpenGroup(GROUPS[active]);
+    } else if (e.code === "Escape") goToMenu();
+  });
 
   if (!tournament) return null;
 

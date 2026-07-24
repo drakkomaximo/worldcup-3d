@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppStore, type View } from "@/store/useAppStore";
-import { MusicToggle } from "./MusicPlayer";
+import { useKeydown } from "@/hooks/useKeydown";
+import { MusicToggle } from "@/components/MusicPlayer";
 
 type OptionId = View | "teams";
 
@@ -45,22 +46,17 @@ export function StartMenu() {
     setTimeout(() => (id === "teams" ? openTeams() : enterStage(id)), 550);
   };
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (confirmed) return;
-      if (e.code === "ArrowUp" || e.code === "KeyW") {
-        setIndex((i) => (i + OPTIONS.length - 1) % OPTIONS.length);
-      } else if (e.code === "ArrowDown" || e.code === "KeyS") {
-        setIndex((i) => (i + 1) % OPTIONS.length);
-      } else if (e.code === "Enter" || e.code === "Space") {
-        e.preventDefault();
-        confirm(OPTIONS[index].id);
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index, confirmed]);
+  useKeydown((e) => {
+    if (confirmed) return;
+    if (e.code === "ArrowUp" || e.code === "KeyW") {
+      setIndex((i) => (i + OPTIONS.length - 1) % OPTIONS.length);
+    } else if (e.code === "ArrowDown" || e.code === "KeyS") {
+      setIndex((i) => (i + 1) % OPTIONS.length);
+    } else if (e.code === "Enter" || e.code === "Space") {
+      e.preventDefault();
+      confirm(OPTIONS[index].id);
+    }
+  });
 
   return (
     <motion.div

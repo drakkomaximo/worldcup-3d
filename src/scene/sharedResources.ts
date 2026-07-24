@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import type { Team } from "@/data/types";
 import { getFlagTexture } from "./flagTexture";
+import { flagUrl } from "@/lib/flags";
 
 /**
  * GPU-friendly shared resources: 48 goals reuse the SAME geometries and
@@ -106,7 +107,7 @@ export function getFlagMaterial(team: Team): THREE.MeshBasicMaterial {
   flagMats.set(team.id, mat);
 
   flagLoader.load(
-    `https://flagcdn.com/w160/${team.iso2}.png`,
+    flagUrl(team.iso2, 160),
     (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
       tex.anisotropy = 4;

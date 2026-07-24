@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TEAMS } from "@/data/teams";
+import { flagUrl } from "@/lib/flags";
+import { useKeydown } from "@/hooks/useKeydown";
 import { useAppStore } from "@/store/useAppStore";
-import { TeamBackdrop } from "./team-select/TeamBackdrop";
-import { PlayerCard } from "./team-select/PlayerCard";
-import { TeamFactsCard } from "./team-select/TeamFactsCard";
-import { FlagRoster } from "./team-select/FlagRoster";
-import { useTeamAnthem } from "./team-select/useTeamAnthem";
+import { TeamBackdrop } from "./TeamBackdrop";
+import { PlayerCard } from "./PlayerCard";
+import { TeamFactsCard } from "./TeamFactsCard";
+import { FlagRoster } from "./FlagRoster";
+import { useTeamAnthem } from "./useTeamAnthem";
 
 const COLS = 12; // roster grid columns — ↑↓ jump one row
 
@@ -27,17 +29,13 @@ export function TeamSelect() {
   useTeamAnthem(team);
 
   // Keyboard: ←→ step, ↑↓ jump a roster row, Esc back
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.code === "ArrowRight" || e.code === "KeyD") setIdx((i) => (i + 1) % n);
-      else if (e.code === "ArrowLeft" || e.code === "KeyA") setIdx((i) => (i + n - 1) % n);
-      else if (e.code === "ArrowDown" || e.code === "KeyS") setIdx((i) => (i + COLS) % n);
-      else if (e.code === "ArrowUp" || e.code === "KeyW") setIdx((i) => (i + n - COLS) % n);
-      else if (e.code === "Escape") goToMenu();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [goToMenu, n]);
+  useKeydown((e) => {
+    if (e.code === "ArrowRight" || e.code === "KeyD") setIdx((i) => (i + 1) % n);
+    else if (e.code === "ArrowLeft" || e.code === "KeyA") setIdx((i) => (i + n - 1) % n);
+    else if (e.code === "ArrowDown" || e.code === "KeyS") setIdx((i) => (i + COLS) % n);
+    else if (e.code === "ArrowUp" || e.code === "KeyW") setIdx((i) => (i + n - COLS) % n);
+    else if (e.code === "Escape") goToMenu();
+  });
 
   return (
     <motion.div
@@ -85,7 +83,7 @@ export function TeamSelect() {
             <div className="flex items-center gap-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`https://flagcdn.com/w160/${team.iso2}.png`}
+                src={flagUrl(team.iso2, 160)}
                 alt={team.name}
                 className="h-12 w-[72px] rounded-md border border-white/20 object-cover shadow-lg"
               />

@@ -1,4 +1,7 @@
-/** Deterministic identity helpers: same player name → same face & stats. */
+/**
+ * DOMAIN — pure, framework-free logic.
+ * Deterministic identity helpers: same player name → same face & stats.
+ */
 
 export function hashStr(s: string): number {
   let h = 2166136261;

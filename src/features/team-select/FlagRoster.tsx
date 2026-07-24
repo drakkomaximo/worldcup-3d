@@ -1,6 +1,7 @@
 "use client";
 
 import { TEAMS } from "@/data/teams";
+import { flagUrl } from "@/lib/flags";
 
 /** 12×4 character-select roster grid of national flags. */
 export function FlagRoster({ idx, onPick }: { idx: number; onPick: (i: number) => void }) {
@@ -20,7 +21,7 @@ export function FlagRoster({ idx, onPick }: { idx: number; onPick: (i: number) =
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`https://flagcdn.com/w40/${t.iso2}.png`}
+              src={flagUrl(t.iso2, 40)}
               alt={t.name}
               className="h-6 w-9 object-cover sm:h-7 sm:w-11"
               loading="lazy"

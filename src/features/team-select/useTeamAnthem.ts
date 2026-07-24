@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { Team } from "@/data/types";
 import { useAppStore } from "@/store/useAppStore";
-import { hashStr } from "./playerIdentity";
+import { hashStr } from "@/domain/playerIdentity";
 
 /**
  * Soft per-nation motif. Priority:

@@ -12,9 +12,9 @@ import { BallCursor } from "./BallCursor";
 import { AnimatePresence } from "framer-motion";
 import { Hud } from "@/components/Hud";
 import { TeamPanel } from "@/components/TeamPanel";
-import { StartMenu } from "@/components/StartMenu";
-import { GroupSlider } from "@/components/GroupSlider";
-import { TeamSelect } from "@/components/TeamSelect";
+import { StartMenu } from "@/features/start-menu/StartMenu";
+import { GroupSlider } from "@/features/group-browser/GroupSlider";
+import { TeamSelect } from "@/features/team-select/TeamSelect";
 import { MusicPlayer } from "@/components/MusicPlayer";
 import type { Team } from "@/data/types";
 

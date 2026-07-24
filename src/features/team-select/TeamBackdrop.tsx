@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import type { Team } from "@/data/types";
+import { flagUrl } from "@/lib/flags";
 
 /** Country-themed backdrop: giant blurred flag, national glow + watermark name. */
 export function TeamBackdrop({ team }: { team: Team }) {
@@ -18,7 +19,7 @@ export function TeamBackdrop({ team }: { team: Team }) {
         >
           <div
             className="absolute inset-0 bg-cover bg-center opacity-25 blur-2xl saturate-150"
-            style={{ backgroundImage: `url(https://flagcdn.com/w1280/${team.iso2}.png)` }}
+            style={{ backgroundImage: `url(${flagUrl(team.iso2, 1280)})` }}
           />
           <div
             className="absolute inset-0"

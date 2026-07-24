@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { fetchTeamDetail } from "@/services/api";
 import { useAppStore } from "@/store/useAppStore";
 import type { Match, TeamDetail } from "@/data/types";
+import { flagUrl } from "@/lib/flags";
 
 const STAGE_LABELS: Record<string, string> = {
   group: "Group Stage",
@@ -96,7 +97,7 @@ export function TeamPanel() {
               {/* Header */}
               <div className="flex items-center gap-4">
                 <img
-                  src={`https://flagcdn.com/w80/${detail.team.iso2}.png`}
+                  src={flagUrl(detail.team.iso2)}
                   alt={`${detail.team.name} flag`}
                   className="h-12 w-auto rounded shadow"
                 />

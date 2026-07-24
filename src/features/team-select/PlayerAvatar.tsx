@@ -1,7 +1,7 @@
 "use client";
 
 import type { Team } from "@/data/types";
-import { hashStr, SKIN_TONES, HAIR_COLORS } from "./playerIdentity";
+import { hashStr, SKIN_TONES, HAIR_COLORS } from "@/domain/playerIdentity";
 
 /**
  * Procedural avatar: not a likeness — a stylized bust wearing the
